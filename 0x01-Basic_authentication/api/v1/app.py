@@ -47,12 +47,11 @@ def before_request() -> str:
         return
     excluded = ['/api/v1/status/', '/api/v1/unauthorized/',
                 '/api/v1/forbidden/']
-    if request.path not in excluded:
+    if not auth.require_auth(request.path, excluded):
         if auth.authorization_header(request) is None:
             abort(401)
         if auth.current_user(request) is None:
             abort(403)
-    return
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
