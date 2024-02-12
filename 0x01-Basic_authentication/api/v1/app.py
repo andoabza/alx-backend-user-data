@@ -42,7 +42,6 @@ def before_request() -> str:
     if getenv('AUTH_TYPE') == 'auth':
         from api.v1.auth.auth import Auth
         auth = Auth()
-
     if auth is None:
         return
     excluded = ['/api/v1/status/', '/api/v1/unauthorized/',
