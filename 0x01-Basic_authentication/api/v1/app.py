@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Route module for the API
 """
@@ -13,9 +12,6 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
-if getenv('AUTH_TYPE') == 'auth':
-    from api.v1.auth.auth import Auth
-    auth = Auth()
 
 
 @app.errorhandler(404)
@@ -43,6 +39,10 @@ def forbidden(error) -> str:
 def before_request() -> str:
     """before request"""
     global auth
+    if getenv('AUTH_TYPE') == 'auth':
+        from api.v1.auth.auth import Auth
+        auth = Auth()
+
     if auth is None:
         return
     excluded = ['/api/v1/status/', '/api/v1/unauthorized/',
