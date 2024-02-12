@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """authentication"""
 from api.v1.app import app_views
@@ -17,10 +16,9 @@ class Auth:
                 if paths.endswith('/'):
                     lan = len(paths) - 1
                     paths = paths[:lan]
-                    if paths ==  path:
-                        return False                 
+                    if paths == path:
+                        return False
         return True
-
 
     def authorization_header(self, request=None) -> str:
         '''secure the api on request'''
@@ -30,6 +28,6 @@ class Auth:
             return None
         return request.headers['Authorization']
 
-
     def current_user(self, request=None) -> TypeVar('User'):
+        '''current user method'''
         return None
