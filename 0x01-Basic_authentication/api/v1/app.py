@@ -35,13 +35,15 @@ def forbidden(error) -> str:
     return jsonify({"error": "Forbidden"}), 403
 
 
+if getenv('AUTH_TYPE') == 'auth':
+    from api.v1.auth.auth import Auth
+    auth = Auth()
+
+
 @app.before_request
 def before_request() -> str:
     """before request"""
     global auth
-    if getenv('AUTH_TYPE') == 'auth':
-        from api.v1.auth.auth import Auth
-        auth = Auth()
     if auth is None:
         return
     excluded = ['/api/v1/status/', '/api/v1/unauthorized/',
