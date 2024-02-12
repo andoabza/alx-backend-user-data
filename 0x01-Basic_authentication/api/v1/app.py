@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Route module for the API
 """
@@ -13,10 +12,11 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
-if getenv('AUTH_TYPE') and getenv('AUTH_TYPE') == 'auth':
-    from api.v1.auth.auth import Auth
-    auth = Auth()
-
+if getenv('AUTH_TYPE') == 'auth':
+    try:
+        from api.v1.auth.auth import Auth
+    except:
+        print(auth)
 
 @app.errorhandler(404)
 def not_found(error) -> str:
