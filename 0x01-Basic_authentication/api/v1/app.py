@@ -54,6 +54,7 @@ def before_request() -> str:
             abort(403)
     return
 
+
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
