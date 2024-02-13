@@ -3,6 +3,8 @@
 from api.v1.auth.auth import Auth
 from base64 import b64decode
 from encodings import utf_8
+from typing import TypeVar
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -39,3 +41,12 @@ class BasicAuth(Auth):
                 second = decoded_base64_authorization_header[index + 1:length]
                 return (first, second)
         return (None, None)
+    
+    def user_object_from_credentials(
+            self, user_email: str, user_pwd: str) -> TypeVar('User'):
+        """extract users from object"""
+        if isinstance(user_email, str) and isinstance(user_pwd, str):
+            if user_email in User.all():
+                if User.is_valid_password(User, user_pwd):
+                    return User
+        return None
