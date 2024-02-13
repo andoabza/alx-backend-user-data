@@ -46,7 +46,8 @@ class BasicAuth(Auth):
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
         """extract users from object"""
         if isinstance(user_email, str) and isinstance(user_pwd, str):
-            if user_email in User.all():
-                if User.is_valid_password(User, user_pwd):
-                    return User(user_email)
-        return None
+            user = User()
+            if user.search({'email': user_email}):
+                if user.is_valid_password(user_pwd):
+                    return user
+        return
