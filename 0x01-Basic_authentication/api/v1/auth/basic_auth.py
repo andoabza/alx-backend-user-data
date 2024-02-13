@@ -37,5 +37,5 @@ class BasicAuth(Auth):
                 index = decoded_base64_authorization_header.find(':')
                 first = decoded_base64_authorization_header[:index]
                 second = decoded_base64_authorization_header[index + 1:length]
-                return (first, second)
+                return first + ':' + second
         return None
