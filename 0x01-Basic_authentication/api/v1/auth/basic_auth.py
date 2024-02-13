@@ -30,6 +30,7 @@ class BasicAuth(Auth):
 
     def extract_user_credentials(
             self, decoded_base64_authorization_header: str) -> (str, str):
+        """extract user credentials"""
         if isinstance(decoded_base64_authorization_header, str):
             if ':' in decoded_base64_authorization_header:
                 length = len(decoded_base64_authorization_header)
