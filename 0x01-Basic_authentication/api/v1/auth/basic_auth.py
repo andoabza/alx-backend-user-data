@@ -41,7 +41,7 @@ class BasicAuth(Auth):
                 second = decoded_base64_authorization_header[index + 1:length]
                 return (first, second)
         return (None, None)
-    
+
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
         """extract users from object"""
