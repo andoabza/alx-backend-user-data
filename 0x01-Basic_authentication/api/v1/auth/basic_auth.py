@@ -48,5 +48,5 @@ class BasicAuth(Auth):
         if isinstance(user_email, str) and isinstance(user_pwd, str):
             if user_email in User.all():
                 if User.is_valid_password(User, user_pwd):
-                    return User
+                    return User(user_email)
         return None
