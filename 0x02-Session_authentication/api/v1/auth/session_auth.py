@@ -3,6 +3,7 @@
 Module of session authentication
 """
 from api.v1.auth.auth import Auth
+from models.user import User
 import uuid
 
 
@@ -24,3 +25,10 @@ class SessionAuth(Auth):
         if isinstance(session_id, str):
             return self.user_id_by_session_id.get(session_id)
         return None
+
+    def current_user(self, request=None):
+        '''current user'''
+        cookie_id = self.session_cookie(request)
+        id = self.user_id_for_session_id(cookie_id)
+        print(id)
+        return User()
