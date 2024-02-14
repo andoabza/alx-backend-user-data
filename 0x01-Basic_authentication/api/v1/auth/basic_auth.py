@@ -70,4 +70,4 @@ class BasicAuth(Auth):
                             user = self.user_object_from_credentials()
                             if user:
                                 return user
-        return
+        return None
