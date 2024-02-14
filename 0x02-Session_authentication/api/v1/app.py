@@ -61,6 +61,8 @@ def before_request() -> str:
         request.current_user = auth.current_user(request)
         if auth.session_cookie(request):
             abort(401)
+        if auth.authorization_header(request):
+            abort(401)
 
 
 if __name__ == "__main__":
