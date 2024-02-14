@@ -33,11 +33,11 @@ class SessionAuth(Auth):
         return User.get(id)
 
     
-def destroy_session(self, request=None):
-    '''logout''' 
-    if request:
-        sess_id = self.session_cookie(request)
-        id = self.user_id_for_session_id(sess_id)
-        del(self.user_id_by_session_id['id'])
-        return True
-    return False
+    def destroy_session(self, request=None):
+        '''logout''' 
+        if request:
+            sess_id = self.session_cookie(request)
+            id = self.user_id_for_session_id(sess_id)
+            del(self.user_id_by_session_id['id'])
+            return True
+        return False
