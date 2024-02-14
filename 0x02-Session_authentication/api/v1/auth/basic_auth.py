@@ -52,22 +52,13 @@ class BasicAuth(Auth):
                 return None
             if users:
                 if users[0].is_valid_password(user_pwd):
-                    return user[0]
+                    return users[0]
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
         '''complete basic authentication'''
-        if request:
-            header = Auth.authorization_header(request)
-            if header:
-                b64_header = self.extract_base64_authorization_header(header)
-                if b64_header:
-                    decode = self.decode_base64_authorization_header(
-                        b64_header)
-                    if decode:
-                        extract = self.extract_user_credentials(decode)
-                        if extract and isinstance(extract, tuple):
-                            user = self.user_object_from_credentials(extract[0], extract[1])
-                            if user:
-                                return user.to_json()
-        return None
+        header = self.authorization_header(request)
+        b64_header = self.extract_base64_authorization_header(header)
+        decode = self.decode_base64_authorization_header(b64_header)
+        user, passw = self.extract_user_credentials(decode)
+        return self.user_object_from_credentials(user, passw)
