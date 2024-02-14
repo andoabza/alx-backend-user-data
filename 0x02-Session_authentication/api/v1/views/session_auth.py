@@ -32,9 +32,9 @@ def login() -> str:
     result.set_cookie(getenv('SESSION_NAME'), sess_id)
     return result
         
-# @app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
-# def logout() -> str:
-#     '''log out implementation'''
-#     if auth.destroy_session(request):
-#         return jsonify({}, 200)
-#     abort(404)
+@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout() -> str:
+    '''log out implementation'''
+    if auth.destroy_session(request):
+        return jsonify({}), 200
+    abort(404)
