@@ -3,13 +3,12 @@ from api.v1.auth.basic_auth import BasicAuth
 from models.user import User
 
 """ Create a user test """
-user_email = "bob100@hbtn.io"
-user_clear_pwd = "H0lberton:School:98!"
-
+user_email = "bob@hbtn.io"
+user_clear_pwd = "H0lbertonSchool98!"
 user = User()
 user.email = user_email
 user.password = user_clear_pwd
-print("New user: {}".format(user.id))
+print("New user: {} / {}".format(user.id, user.display_name()))
 user.save()
 
 basic_clear = "{}:{}".format(user_email, user_clear_pwd)

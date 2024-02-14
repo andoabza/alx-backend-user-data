@@ -58,16 +58,17 @@ class BasicAuth(Auth):
     def current_user(self, request=None) -> TypeVar('User'):
         '''complete basic authentication'''
         if request:
-            header = Auth.authorization_header(request)
+            header = self.authorization_header(request)
             if header:
                 b64_header = self.extract_base64_authorization_header(header)
                 if b64_header:
                     decode = self.decode_base64_authorization_header(
                         b64_header)
                     if decode:
-                        extract = self.extract_user_credentials
-                        if extract:
-                            user = self.user_object_from_credentials()
+                        extract = self.extract_user_credentials(decode)
+                        if extract and len(extract) == 2:
+                            user = self.user_object_from_credentials(
+                                extract[0], extract[1])
                             if user:
                                 return user
         return None
