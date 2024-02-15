@@ -42,5 +42,4 @@ class SessionAuth(Auth):
                     del(self.user_id_by_session_id['id'])
                     return True
                 return False
-            return False
         return False
