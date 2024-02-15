@@ -39,6 +39,7 @@ class SessionAuth(Auth):
             if sess_id:
                 id = self.user_id_for_session_id(sess_id)
                 if id:
-                    self.user_id_by_session_id.pop(id)
+                    del(self.user_id_by_session_id['id'])
                     return True
+
         return False
