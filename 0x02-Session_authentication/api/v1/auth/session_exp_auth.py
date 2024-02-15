@@ -18,12 +18,13 @@ class SessionExpAuth(SessionAuth):
     def create_session(self, user_id=None):
         '''create session'''
         id = super().create_session(user_id)
-        if not id:
+        if id is None:
             return None
-        self.user_id_by_session_id.update({id: {
+        session_dict = {
             'user_id': user_id,
             'created_at': datetime.now()
-        }})
+        }
+        self.user_id_by_session_id.update({id: session_dict})
         return id
 
     def user_id_for_session_id(self, session_id=None):
