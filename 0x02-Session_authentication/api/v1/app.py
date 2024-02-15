@@ -24,7 +24,8 @@ if getenv('AUTH_TYPE') == 'basic_auth':
 if getenv('AUTH_TYPE') == 'session_auth':
     auth = SessionAuth()
 if getenv('AUTH_TYPE') == 'session_exp_auth':
-    auth = SessionExpAuth()    
+    auth = SessionExpAuth()
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
