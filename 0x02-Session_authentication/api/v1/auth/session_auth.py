@@ -36,7 +36,9 @@ class SessionAuth(Auth):
         '''logout'''
         if request:
             sess_id = self.session_cookie(request)
-            id = self.user_id_for_session_id(sess_id)
-            del(self.user_id_by_session_id['id'])
-            return True
+            if sess_id:
+                id = self.user_id_for_session_id(sess_id)
+                if id:
+                    self.user_id_by_session_id.pop(id)
+                    return True
         return False
