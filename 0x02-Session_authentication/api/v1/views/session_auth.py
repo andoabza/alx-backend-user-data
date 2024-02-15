@@ -6,7 +6,6 @@ from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.user import User
 from os import getenv
-from api.v1.app import auth
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
@@ -18,6 +17,7 @@ def login() -> str:
         return {"error": "email missing"}, 400
     if not password or len(password) == 0:
         return {"error": "password missing"}, 400
+    from api.v1.app import auth
     user = User.search({'email': email})
     if not user:
         return {"error": "no user found for this email"}, 404
