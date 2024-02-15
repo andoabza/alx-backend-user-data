@@ -18,24 +18,24 @@ class SessionExpAuth(SessionAuth):
     def create_session(self, user_id=None):
         '''create session'''
         id = super().create_session(user_id)
-        if id:
-            self.user_id_by_session_id.update({id: {
-                'user_id': user_id,
-                'created_at': datetime.now()
-            }})
-            return id
-        return None
+        if not id:
+            return None
+        self.user_id_by_session_id.update({id: {
+            'user_id': user_id,
+            'created_at': datetime.now()
+        }})
+        return id
 
     def user_id_for_session_id(self, session_id=None):
         '''using user id find session id'''
-        if session_id is None:
+        if not session_id:
             return None
-        session_dict = self.user_id_by_session_id.get(session_id)
-        if self.session_duration <= 0:
-            return session_dict.get('user_id')
-        if 'created_at' not in session_dict:
+        if session_id in self.user_id_by_session_id:
+            if self.session_duration <= 0:
+                return self.user_id_by_session_id[session_id]['user_id']
+        if 'created_at' not in self.user_id_by_session_id[session_id]:
             return None
-        if session_dict.get('created_at') + timedelta(
-                seconds=self.session_duration) < datetime.datetime.now():
+        if self.user_id_by_session_id['123']['created_at'] + timedelta(
+                seconds=self.session_duration) > datetime.datetime.now():
             return None
-        return session_dict.get('user_id')
+        return self.user_id_by_session_id[session_id]['user_id']
