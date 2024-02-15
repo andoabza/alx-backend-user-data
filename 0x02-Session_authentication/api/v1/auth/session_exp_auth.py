@@ -29,14 +29,14 @@ class SessionExpAuth(SessionAuth):
 
     def user_id_for_session_id(self, session_id=None):
         '''using user id find session id'''
-        if not session_id:
+        if session_id is None:
             return None
-        if session_id in self.user_id_by_session_id:
-            if self.session_duration <= 0:
-                return self.user_id_by_session_id[session_id]['user_id']
-        if 'created_at' not in self.user_id_by_session_id[session_id]:
+        session_dict = self.user_id_by_session_id.get(session_id)
+        if self.session_duration <= 0:
+            return session_dict.get(session_id)
+        if 'created_at' not in session_dict:
             return None
-        if self.user_id_by_session_id['123']['created_at'] + timedelta(
+        if session_dict.get('created_at') + timedelta(
                 seconds=60) > datetime.datetime.now():
             return None
-        return self.user_id_by_session_id[session_id]['user_id']
+        return session_dict.get('user_id')
