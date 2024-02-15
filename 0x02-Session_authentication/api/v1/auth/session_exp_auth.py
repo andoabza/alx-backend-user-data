@@ -20,11 +20,10 @@ class SessionExpAuth(SessionAuth):
         id = super().create_session(user_id)
         if id is None:
             return None
-        session_dict = {
+        self.user_id_by_session_id.update({id: {
             'user_id': user_id,
             'created_at': datetime.now()
-        }
-        self.user_id_by_session_id.update({id: session_dict})
+        }})
         return id
 
     def user_id_for_session_id(self, session_id=None):
