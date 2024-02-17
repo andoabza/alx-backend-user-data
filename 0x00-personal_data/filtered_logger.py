@@ -14,15 +14,6 @@ def filter_datum(fields: List[str], redaction: str,
     return message
 
 
-def get_logger() -> logging.Logger:
-    '''get looger'''
-    user_data = logging
-    user_data.basicConfig(level=logging.INFO)
-    user_data.StreamHandler(RedactingFormatter)
-    with open('user_data', 'r') as csvfile:
-        reader = csv.reader(csvfile)
-        PII_FIELDS = [i for i in reader]
-
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
@@ -39,3 +30,13 @@ class RedactingFormatter(logging.Formatter):
         '''filter values in incoming log records using filter_datum'''
         return filter_datum(self.fields, self.REDACTION,
                             super().format(record), self.SEPARATOR)
+
+def get_logger() -> logging.Logger:
+    '''get looger'''
+    user_data = logging
+    user_data.basicConfig(level=logging.INFO)
+    user_data.StreamHandler(RedactingFormatter)
+    with open('user_data.csv', 'r') as csvfile:
+        reader = csv.reader(csvfile)
+    return reader
+PII_FIELDS = ['name', 'email', 'phone', 'password', 'ip']

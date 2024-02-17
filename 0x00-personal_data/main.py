@@ -1,9 +1,7 @@
-import csv
-with open('user_data.csv', 'r') as csvfile:
-    reader = csv.reader(csvfile)
-    data = []
-    for row in csvfile:
-        data.append(row)
+import logging
 
-    print(data[1])
-        
+get_logger = __import__('filtered_logger').get_logger
+PII_FIELDS = __import__('filtered_logger').PII_FIELDS
+
+print(get_logger.__annotations__.get('return'))
+print("PII_FIELDS: {}".format(len(PII_FIELDS)))
