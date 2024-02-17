@@ -3,7 +3,7 @@
 import re
 import logging
 from typing import List
-
+import csv
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
@@ -14,10 +14,18 @@ def filter_datum(fields: List[str], redaction: str,
     return message
 
 
+def get_logger() -> logging.Logger:
+    '''get looger'''
+    user_data = logging
+    user_data.basicConfig(level=logging.INFO)
+    user_data.StreamHandler(RedactingFormatter)
+    with open('user_data', 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        PII_FIELDS = [i for i in reader]
+
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
-
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
