@@ -43,4 +43,4 @@ def get_logger() -> logging.Logger:
     return reader
 
 
-PII_FIELDS = ['name', 'email', 'phone', 'password', 'ip']
+PII_FIELDS = ('name', 'email', 'phone', 'password', 'ip')
