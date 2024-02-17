@@ -5,6 +5,7 @@ import logging
 from typing import List
 import csv
 
+
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     '''returns the log message obfuscated'''
@@ -31,6 +32,7 @@ class RedactingFormatter(logging.Formatter):
         return filter_datum(self.fields, self.REDACTION,
                             super().format(record), self.SEPARATOR)
 
+
 def get_logger() -> logging.Logger:
     '''get looger'''
     user_data = logging
@@ -39,4 +41,6 @@ def get_logger() -> logging.Logger:
     with open('user_data.csv', 'r') as csvfile:
         reader = csv.reader(csvfile)
     return reader
+
+
 PII_FIELDS = ['name', 'email', 'phone', 'password', 'ip']
