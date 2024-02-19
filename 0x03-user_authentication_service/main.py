@@ -1,11 +1,21 @@
 from db import DB
 from user import User
 
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
+
+
 my_db = DB()
 
-user_1 = my_db.add_user("test@test.com", "SuperHashedPwd")
-print(user_1.id)
+email = 'test@test.com'
+hashed_password = "hashedPwd"
 
-user_2 = my_db.add_user("test1@test.com", "SuperHashedPwd1")
-print(user_2.id)
-# self._engine = create_engine("mysql+mysqldb://root:root@localhost/school_db")
+user = my_db.add_user(email, hashed_password)
+print(user.id)
+v = my_db.find_user_by(id=user.id)
+try:
+    print('old', v.hashed_password)
+    my_db.update_user(user.id, hashed_password='NewPwd')
+    print("Password updated", v.hashed_password)
+except ValueError:
+    print("Error")
