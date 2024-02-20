@@ -47,40 +47,17 @@ class DB:
 
     def find_user_by(self, **kwarg: dict) -> user:
         '''find user by arg'''
-        if 'email' in kwarg:
-            email = kwarg.get('email')
-            filtered = self._session.query(user).filter(user.email == email)
-            for us in filtered:
-                return us
-            raise NoResultFound
-        if 'id' in kwarg:
-            id = kwarg.get('id')
-            filtered = self._session.query(user).filter(user.id == id)
-            for us in filtered:
-                return us
-            raise NoResultFound
-        if 'hashed_password' in kwarg:
-            hashed_password = kwarg.get('hashed_password')
-            filtered = self._session.query(user).filter(
-                user.hashed_password == hashed_password)
-            for us in filtered:
-                return us
-            raise NoResultFound
-        if 'session_id' in kwarg:
-            session_id = kwarg.get('session_id')
-            filtered = self._session.query(user).filter(
-                user.session_id == session_id)
-            for us in filtered:
-                return us
-            raise NoResultFound
-        if 'reset_token' in kwarg:
-            reset_token = kwarg.get('reset_token')
-            filtered = self._session.query(user).filter(
-                user.reset_token == reset_token)
-            for us in filtered:
-                return us
-            raise NoResultFound
+        for key in kwarg:
+            key = key
+            value = kwarg[key]
+        base = user.__dict__
+        if key in base:
+            user_data = base[key]
+            users = self._session.query(user).filter(user_data == value).one()
+            if users:
+                return users
         raise InvalidRequestError
+        
 
     def update_user(self, user_id: int, **kwarg: dict) -> None:
         '''update user based on id'''
