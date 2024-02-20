@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from typing import TypeVar
 from sqlalchemy.exc import NoResultFound, InvalidRequestError
+
 from user import Base
 from user import User as user
 
@@ -36,8 +37,8 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
         """add user into the database"""
         new_user = user(email=email, hashed_password=hashed_password)
-        self._session.add(new_user)
-        self._session.commit()
+        self.__session.add(new_user)
+        self.__session.commit()
         return new_user
 
     def find_user_by(self, **kwarg: dict) -> user:
@@ -92,3 +93,4 @@ class DB:
         if 'reset_token' in kwarg:
             value = kwarg.get('reset_token')
             updated.reset_token = value
+        self._session.commit()
