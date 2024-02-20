@@ -54,8 +54,7 @@ class DB:
         if key in base:
             user_data = base[key]
             users = self._session.query(user).filter(user_data == value).one()
-            if users:
-                return users
+            return users
         raise InvalidRequestError
 
     def update_user(self, user_id: int, **kwarg: dict) -> None:
