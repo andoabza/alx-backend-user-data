@@ -13,17 +13,5 @@ def index() -> str:
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route('/users', strict_slashes=False, methods=['POST'])
-def users() -> str:
-    '''register users'''
-    try:
-        email = request.form.get('email')
-        password = request.form.get('password')
-        AUTH.register_user(email, password)
-        return jsonify({"email": email, "message": "user created"})
-    except ValueError:
-        return jsonify({"message": "email already registered"}), 400
-
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
