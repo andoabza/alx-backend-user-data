@@ -1,20 +1,24 @@
-from db import DB
-from user import User
+from auth import Auth
 
-from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy.orm.exc import NoResultFound
+email = 'me@me.com'
+password = 'mySecuredPwd'
 
-
-my_db = DB()
-
-email = 'test@test.com'
-hashed_password = "ashedPwd"
-
-user = my_db.add_user(email, hashed_password)
-print(user.id)
+auth = Auth()
 
 try:
-    my_db.update_user(1, hashed_password='lNewPwd')
-    print("Password updated")
-except ValueError:
-    print("Error")
+    user = auth.register_user(email, password)
+    print("successfully created a new user!")
+except ValueError as err:
+    print("could not create a new user: {}".format(err))
+
+try:
+    user = auth.register_user('email', 'password')
+    print("successfully created a new user!")
+except ValueError as err:
+    print("could not create a new user: {}".format(err))        
+
+try:
+    user = auth.register_user('email', 'password')
+    print("successfully created a new user!")
+except ValueError as err:
+    print("could not create a new user: {}".format(err))        
