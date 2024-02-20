@@ -57,7 +57,6 @@ class DB:
             if users:
                 return users
         raise InvalidRequestError
-        
 
     def update_user(self, user_id: int, **kwarg: dict) -> None:
         '''update user based on id'''
