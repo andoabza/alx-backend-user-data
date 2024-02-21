@@ -8,9 +8,8 @@ from sqlalchemy.exc import NoResultFound
 
 def _hash_password(password: str) -> bytes:
     '''return hashed password'''
-    hashed = password.encode('utf-8')
-    hash = bcrypt.hashpw(hashed, bcrypt.gensalt())
-    return hash
+    pas = bytes(password, 'utf-8')
+    return bcrypt.hashpw(pas, bcrypt.gensalt())
 
 
 class Auth:
@@ -32,3 +31,14 @@ class Auth:
             raise ValueError(f'User {email} already exists')
         users = self._db.add_user(email=email, hashed_password=hashed)
         return users
+
+    def valid_login(self, email: str, password: str) -> bool:
+        '''check email for login'''
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            return False
+        if user:
+            hashed = _hash_password(password)
+            print(bytes(password, 'utf-8') is hashed)
+            return bcrypt.checkpw(bytes(password, 'utf-8'), hashed)
