@@ -36,7 +36,17 @@ def login() -> str:
     abort(401)
 
 
+@app.route('/sessions', methods=['DELETE'])
+def logout() -> str:
+    '''implementation of logout users'''
+    session = request.cookies.get('session_id')
+    if AUTH.get_user_from_session_id(session):
+        AUTH.destroy_session(session)
+        return app.redirect('/')
+    abort(403)
+
+
 if __name__ == "__main__":
     from auth import Auth
     AUTH = Auth()
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port="5000", debug=True)
