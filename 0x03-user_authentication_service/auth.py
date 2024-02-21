@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 '''authentication module'''
 import bcrypt
+import uuid
 from user import User
 from db import DB
 from sqlalchemy.exc import NoResultFound
@@ -9,7 +10,12 @@ from sqlalchemy.exc import NoResultFound
 def _hash_password(password: str) -> bytes:
     '''return hashed password'''
     return bcrypt.hashpw(bytes(password, 'utf-8'), bcrypt.gensalt())
-   
+
+
+def _generate_uuid() -> str:
+    '''generate id for the user'''
+    return str(uuid.uuid4())
+
 
 class Auth:
     """Auth class to interact with the authentication database.
@@ -39,5 +45,6 @@ class Auth:
             return False
         if user:
             pas = user.hashed_password
-            return bcrypt.checkpw(password.encode('utf-8'), bytes(pas, 'utf-8'))
+            return bcrypt.checkpw(
+                password.encode('utf-8'), bytes(pas, 'utf-8'))
         return False
