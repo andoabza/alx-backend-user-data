@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#/#!/usr/bin/env python3
 """basic flask APP"""
 from flask import Flask, jsonify, request, abort
 
@@ -45,6 +45,13 @@ def logout() -> str:
         return app.redirect('/')
     abort(403)
 
+@app.route('/profile', methods=['GET'])
+def profile() -> str:
+    session = request.cookies.get('session_id')
+    user = AUTH.get_user_from_session_id(session)
+    if user:
+        return jsonify({"email": user.email}), 200
+    abort(403)
 
 if __name__ == "__main__":
     from auth import Auth
