@@ -45,6 +45,7 @@ def logout() -> str:
         return app.redirect('/')
     abort(403)
 
+
 @app.route('/profile', methods=['GET'])
 def profile() -> str:
     session = request.cookies.get('session_id')
@@ -52,6 +53,21 @@ def profile() -> str:
     if user:
         return jsonify({"email": user.email}), 200
     abort(403)
+
+@app.route('get_reset_password_token', methods=['POST'])
+def get_reset_password_token() -> str:
+    '''reset password token'''
+    email = request.form.get('email')
+    try:
+        user = AUTH._db.find_user_by(email=email)
+        if not user:
+            token = AUTH.get_reset_password_token(email)
+            return jsonify({"email": email, "reset_token": token})
+        abort(403)
+    except Exception:
+        token = AUTH.get_reset_password_token(email)
+        return jsonify({"email": email, "reset_token": token})
+
 
 if __name__ == "__main__":
     from auth import Auth
